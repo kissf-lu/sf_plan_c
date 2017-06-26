@@ -5,6 +5,7 @@ from simpy import Environment
 from random import seed, randint
 seed(23)
 
+
 class Env(Environment):
     def __init__(self):
         Environment.__init__(self)
@@ -20,8 +21,9 @@ class Env(Environment):
             # Park for 1–6 hours
             print('Start parking at', self.now)
             self.bat_ctrl_reactivate.succeed()  # "reactivate"
+            print('see bat_ctrl at ', self.now)
             self.bat_ctrl_reactivate = self.event()
-            yield self.timeout(randint(60, 360))
+            yield self.timeout(randint(60, 360))  # "parking deactivate after timeout"
             print('Stop parking at', self.now)
             print('out of drive at ', self.now)
 
@@ -41,4 +43,5 @@ def test_car_env():
     car_env.run(until=310)
 
 if __name__ == '__main__':
+
     test_car_env()
